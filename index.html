@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Amo ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 90%;
+            z-index: 10;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            line-height: 1.8;
+            animation: slideIn 0.8s ease-out;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .decoration {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .footer {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+
+        .heart {
+            animation: float 6s linear infinite;
+        }
+
+        .flower {
+            animation: float 7s linear infinite;
+        }
+
+        .star {
+            animation: float 8s linear infinite;
+        }
+
+        @keyframes float {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .message {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+
+            .decoration {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .message {
+                font-size: 1rem;
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .decoration {
+                font-size: 2rem;
+            }
+        }
+
+        svg {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>❤️ Para Ti ❤️</h1>
+        
+        <div class="decoration" id="decoration"></div>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="decoration" id="decoration2"></div>
+        
+        <div class="footer">
+            Con todo mi amor 💕
+            <br>
+            <small id="refresh-hint" style="display: block; margin-top: 10px; opacity: 0.7;">Recarga la página para ver otro mensaje</small>
+        </div>
+    </div>
+
+    <script>
+        const frases = [
+            "Me encantas más de lo que yo a ti",
+            "Te amo mucho mucho mucho mucho mucho mucho",
+            "Te amo más de lo que imaginas",
+            "Te amo en cantidades alarmantes",
+            "Eres lo mejor que hay en mi vida"
+        ];
+
+        const variaciones = [
+            "Cada día te amo más",
+            "Eres mi razón de sonreír",
+            "Mi corazón es tuyo",
+            "Eres el amor de mi vida",
+            "Te amo con toda mi alma",
+            "Eres mi sueño hecho realidad",
+            "Te amo sin condiciones",
+            "Siempre seré tuyo",
+            "Mi amor por ti es infinito",
+            "Eres lo más importante para mí"
+        ];
+
+        const todasLasFrases = [...frases, ...variaciones];
+        const decoraciones = ["❤️", "💕", "💖", "💗", "🌹", "🌸", "⭐", "✨"];
+
+        function obtenerFraseAleatoria() {
+            const indice = Math.floor(Math.random() * todasLasFrases.length);
+            return todasLasFrases[indice];
+        }
+
+        function obtenerDecoracion() {
+            const indice = Math.floor(Math.random() * decoraciones.length);
+            return decoraciones[indice];
+        }
+
+        document.getElementById('message').textContent = obtenerFraseAleatoria();
+        document.getElementById('decoration').textContent = obtenerDecoracion();
+        document.getElementById('decoration2').textContent = obtenerDecoracion();
+
+        function crearElementoFlotante() {
+            const elementos = ['❤️', '💕', '🌹', '🌸', '⭐', '✨', '💖'];
+            const elemento = document.createElement('div');
+            elemento.className = 'floating-element';
+            elemento.textContent = elementos[Math.floor(Math.random() * elementos.length)];
+            
+            const posX = Math.random() * 100;
+            elemento.style.left = posX + '%';
+            elemento.style.bottom = '-50px';
+            
+            const velocidad = 6 + Math.random() * 4;
+            elemento.style.animationDuration = velocidad + 's';
+            
+            const tiposAnimacion = ['heart', 'flower', 'star'];
+            elemento.classList.add(tiposAnimacion[Math.floor(Math.random() * tiposAnimacion.length)]);
+            
+            document.body.appendChild(elemento);
+            
+            setTimeout(() => {
+                elemento.remove();
+            }, velocidad * 1000);
+        }
+
+        setInterval(crearElementoFlotante, 500);
+
+        for (let i = 0; i < 5; i++) {
+            setTimeout(crearElementoFlotante, i * 200);
+        }
+    </script>
+</body>
+</html>
