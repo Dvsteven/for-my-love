@@ -243,6 +243,130 @@
         for (let i = 0; i < 5; i++) {
             setTimeout(crearElementoFlotante, i * 200);
         }
+
+        // Función para crear confeti
+        function crearConfeti() {
+            for (let i = 0; i < 30; i++) {
+                const confeti = document.createElement('div');
+                confeti.style.position = 'fixed';
+                confeti.style.pointerEvents = 'none';
+                confeti.textContent = ['❤️', '💕', '💖', '🌹', '✨', '⭐'][Math.floor(Math.random() * 6)];
+                confeti.style.fontSize = (20 + Math.random() * 30) + 'px';
+                confeti.style.left = Math.random() * 100 + '%';
+                confeti.style.top = '-50px';
+                confeti.style.zIndex = '9999';
+                
+                const duracion = 2 + Math.random() * 1;
+                confeti.style.animation = `confeti-fall ${duracion}s linear forwards`;
+                
+                document.body.appendChild(confeti);
+                
+                setTimeout(() => confeti.remove(), duracion * 1000);
+            }
+        }
+
+        // Añadir animación de confeti al CSS dinámicamente
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confeti-fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Método secreto para recargar: doble clic con vibración y confeti
+        let tiempoUltimoClick = 0;
+        document.addEventListener('click', function(e) {
+            const ahora = Date.now();
+            if (ahora - tiempoUltimoClick < 300) {
+                // Vibración háptica
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 30, 50]);
+                }
+                crearConfeti();
+                setTimeout(() => {
+                    location.reload();
+                }, 800);
+            }
+            tiempoUltimoClick = ahora;
+        });
+
+        // Método secreto para recargar: doble toque en móviles con vibración y confeti
+        let tiempoUltimoToque = 0;
+        document.addEventListener('touchend', function() {
+            const ahora = Date.now();
+            if (ahora - tiempoUltimoToque < 300) {
+                // Vibración háptica
+                if (navigator.vibrate) {
+                    navigator.vibrate([50, 30, 50]);
+                }
+                crearConfeti();
+                setTimeout(() => {
+                    location.reload();
+                }, 800);
+            }
+            tiempoUltimoToque = ahora;
+        });
+
+        // Reacción al movimiento del dispositivo (acelerómetro)
+        if (window.DeviceOrientationEvent) {
+            let lastShakeTime = 0;
+            let shakeThreshold = 30;
+            let lastX = 0, lastY = 0, lastZ = 0;
+            
+            window.addEventListener('devicemotion', function(event) {
+                const curTime = new Date().getTime();
+                
+                if ((curTime - lastShakeTime) > 500) {
+                    const diffTime = curTime - lastShakeTime;
+                    lastShakeTime = curTime;
+                    
+                    const x = event.accelerationIncludingGravity.x;
+                    const y = event.accelerationIncludingGravity.y;
+                    const z = event.accelerationIncludingGravity.z;
+                    
+                    const speed = Math.sqrt(
+                        Math.pow(x - lastX, 2) +
+                        Math.pow(y - lastY, 2) +
+                        Math.pow(z - lastZ, 2)
+                    ) / diffTime * 10000;
+                    
+                    if (speed > shakeThreshold) {
+                        // El dispositivo se movió rápidamente - crear efecto de partículas
+                        for (let i = 0; i < 10; i++) {
+                            const elemento = document.createElement('div');
+                            elemento.className = 'floating-element';
+                            elemento.textContent = ['❤️', '💕', '✨', '⭐'][Math.floor(Math.random() * 4)];
+                            elemento.style.left = Math.random() * 100 + '%';
+                            elemento.style.bottom = Math.random() * 30 + '%';
+                            elemento.style.fontSize = (2 + Math.random() * 2) + 'rem';
+                            elemento.style.zIndex = '999';
+                            
+                            const duration = 1.5 + Math.random() * 1;
+                            elemento.style.animationDuration = duration + 's';
+                            elemento.classList.add(['heart', 'flower', 'star'][Math.floor(Math.random() * 3)]);
+                            
+                            document.body.appendChild(elemento);
+                            
+                            setTimeout(() => elemento.remove(), duration * 1000);
+                        }
+                    }
+                    
+                    lastX = x;
+                    lastY = y;
+                    lastZ = z;
+                }
+            });
+        }
+
+        // Solicitar permisos de movimiento en iOS 13+
+        if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+            // Para iOS 13+, se necesita permisos explícitos
+            // Puedes agregar un botón para solicitarlos si lo deseas
+        }
     </script>
 </body>
 </html>
